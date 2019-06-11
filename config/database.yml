@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  url:  <%= ENV['DATABASE_URL'] %>
+  pool: <%= ENV['DB_POOL'] || ENV['MAX_THREADS'] || 5 %>
+  connect_timeout: <%= ENV['DB_CONNECT_TIMEOUT'] || 5 %># s
+  variables:
+    statement_timeout: <%= ENV['DB_STATEMENT_TIMEOUT'] || 2000 %> # ms
+
+events_db:
+  <<: *default
+  url: <%= ENV['DATABASE_EVENTS_URL'] %>
+
+production:
+  <<: *default
+development:
+  <<: *default
+test:
+  <<: *default

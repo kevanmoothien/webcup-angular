@@ -1,0 +1,73 @@
+web:
+  build: .
+  command: bundle exec foreman start
+  volumes:
+    - .:/home/user
+    - web_bundle:/bundle
+    - web_node_modules:/var/app/node_modules
+    - web_bower:/var/app/vendor/assets/components
+    - ./web_global_node_modules:/lib/node_modules
+  ports:
+    - "5000:5000"
+    - "5001:5001"
+    - "4200:4200"
+  links:
+    - db
+    - redis
+    # - pusher
+    # - mailcatcher
+  environment:
+    - RACK_ENV=development
+    - MTA_URL=smtp://mailcatcher:1025/
+    - RAILS_ENV=development
+    - DATABASE_URL=postgresql://postgres:postgres@db/postgres
+    - REDIS_URL=redis://redis:6379
+    - REDIS_SIDEKIQ_URL=redis://redis-sidekiq:6379
+    - ELASTICSEARCH_URL=http://elasticsearch:9200
+    - CANVAS_TEST=true
+    - _DATABASEDOTCOM_CLIENT_ID=client_id
+    - _DATABASEDOTCOM_CLIENT_SECRET=client_secret
+    - SECRET_KEY_BASE=f6fd9d146ebd626120771b1b149b194b2aeadd1d04ac3ede151d8682ab1b9142f4659324193c350c51d0f0a11f69570f851fa489d21e3ded15ab79f3b535f9cb
+    - SFDX_AUTOUPDATE_DISABLE=true
+    - PUSHER_SOCKET_URL=ws://localhost:53945/app/pusher
+    - PUSHER_URL=http://pusher:pusher@pusher:5000/apps/pusher
+pusher:
+  build: .
+  volumes:
+    - .:/home/user
+    - web_bundle:/bundle
+  command: bundle exec pusher-fake -v -i pusher -k pusher -s pusher --socket-port 53945 --socket-host 0.0.0.0 --web-host 0.0.0.0 --web-port 5000
+  ports:
+    - "53945:53945"
+db-psql:
+  image: postgres:10.6-alpine
+  links:
+    - db
+  command: psql -U postgres -h db # Password is postgres
+db:
+  image: postgres:10.6-alpine
+  volumes:
+    - webcup_db:/var/lib/postgresql/data
+  environment:
+    - PGDATA=/var/lib/postgresql/data/pgdata
+    - POSTGRES_PASSWORD=postgres
+    - POSTGRES_USER=postgres
+    - POSTGRES_DB=postgres
+redis:
+  image: redis:3.2.9-alpine
+redis-cli:
+  image: redis:3.2.9-alpine
+  command: redis-cli -h redis
+  links:
+    - redis
+ngrok:
+  image: wernight/ngrok
+  links:
+    - web
+  command: ngrok http web:5000
+  ports:
+    - "4040:4040"
+mailcatcher:
+  image: schickling/mailcatcher
+  ports:
+    - "1080:1080"

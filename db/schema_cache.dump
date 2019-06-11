@@ -1,0 +1,24 @@
+U:2ActiveRecord::ConnectionAdapters::SchemaCache[
+l+	øöý\{I"schema_migrations:ET[o:7ActiveRecord::ConnectionAdapters::PostgreSQLColumn:
+@nameI"version;T:@table_nameI"schema_migrations;T:@sql_type_metadataU:=ActiveRecord::ConnectionAdapters::PostgreSQLTypeMetadata[	:__v2__[	:@type_metadata:	@oid:
+@fmod:@array[	o:6ActiveRecord::ConnectionAdapters::SqlTypeMetadata
+:@sql_typeI"character varying;T:
+@type:string:@limit0:@precision0:@scale0iiúF@:
+@nullF:@default0:@default_function0:@collation0:@comment0:@max_identifier_lengthiDI"ar_internal_metadata;T[	o;;I"key;T;	I"ar_internal_metadata;T;
+U;[	;[	;;;;[	o;
+;I"character varying;T;;;0;0;0iiúF@;F;0;0;0;0;iDo;;I"
+value;T;	@;
+U;[	;[	;;;;[	o;
+;I"character varying;T;;;0;0;0iiúF@%;T;0;0;0;0;iDo;;I"created_at;T;	@;
+U;[	;[	;;;;[	o;
+;I" timestamp without time zone;T;:datetime;0;0;0iZiúF@-;F;0;0;0;0;iDo;;I"updated_at;T;	@;
+U;[	;[	;;;;[	o;
+;I" timestamp without time zone;T;;;0;0;0iZiúF@5;F;0;0;0;0;iDI"customers;T[	o;;I"id;T;	I"customers;T;
+U;[	;[	;;;;[	o;
+;I"bigint;T;:integer;i;0;0iiúF@@;F;0;I"*nextval('customers_id_seq'::regclass);T;0;0;iDo;;I"	name;T;	@;;
+U;[	;[	;;;;[	o;
+;I"character varying;T;;;0;0;0iiúF@I;T;0;0;0;0;iDo;;I"created_at;T;	@;;
+U;[	;[	;;;;[	o;
+;I" timestamp without time zone;T;;;0;0;0iZiúF@Q;F;0;0;0;0;iDo;;I"updated_at;T;	@;;
+U;[	;[	;;;;[	o;
+;I" timestamp without time zone;T;;;0;0;0iZiúF@Y;F;0;0;0;0;iD{I"schema_migrations;T{@@I"ar_internal_metadata;T{	@@@ @@(@'@0@/I"customers;T{	@:@9@D@C@L@K@T@S{I"schema_migrations;TI"version;TI"ar_internal_metadata;TI"key;TI"customers;TI"id;T{I"schema_migrations;TTI"ar_internal_metadata;TTI"customers;TT
