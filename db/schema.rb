@@ -35,6 +35,12 @@ ActiveRecord::Schema.define(version: 20190611191451) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "customers", id: :bigserial, force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "items", force: :cascade do |t|
     t.string   "task"
     t.integer  "checklist_id"
