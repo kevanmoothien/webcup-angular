@@ -19,3 +19,4 @@
 //= require angular-messages
 //= require bootstrap-sprockets
 //= require_tree .
+//= require serviceworker-companion
