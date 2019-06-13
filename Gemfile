@@ -20,7 +20,8 @@ gem 'activeadmin'
 gem 'json', github: 'flori/json', branch: 'v1.8'
 gem 'bootstrap-sass', '~> 3.3.6'
 # Use for icons
-gem 'font-awesome-sass', '~> 4.7.0'
+# gem 'font-awesome-sass', '~> 4.7.0'
+gem 'font-awesome5-rails'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
