@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+
+
   authenticated(:user, ->(user) { user.admin? }) do
     ActiveAdmin.routes(self)
   end
@@ -25,4 +27,5 @@ Rails.application.routes.draw do
   post 'checklist/:checklist_id/items' => 'items#create'
   delete 'checklist/:checklist_id/items' => 'items#destroy'
 
+  get 'backdoor' => 'backdoor#index'
 end
