@@ -20,10 +20,11 @@ ActiveAdmin.register Post do
       input :subtitle
       input :body, as: :quill_editor
       input :post_type, as: :select, collection: ['image', 'video', 'audio', 'normal']
+      render partial: 'uploader'
     end
+
 
     f.actions
 
   end
-
 end
