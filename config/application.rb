@@ -15,7 +15,8 @@ module Webcup
    config.to_prepare do
      DeviseController.respond_to :html, :json
    end
+   config.assets.enabled = true
+
   end
 end
 
-Rails.application.config.assets.initialize_on_precompile = false
