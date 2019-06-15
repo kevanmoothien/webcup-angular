@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-
-
   resources :posts
-  authenticated(:user, ->(user) { user.admin? }) do
+
+  authenticated(:user, ->(user) { puts "##### #{user.inspect}";user.admin }) do
+    puts "##################################"
     ActiveAdmin.routes(self)
   end
 
