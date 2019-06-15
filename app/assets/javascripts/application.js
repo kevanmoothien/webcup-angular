@@ -12,10 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require angular
-//= require angular-ui-router
-//= require angular-devise
+//= require angular.min
+//= require angular-ui-router.min
+//= require devise-min
 //= require angular-rails-templates
-//= require angular-messages
+//= require angular-messages.min
 //= require bootstrap-sprockets
 //= require_tree .
