@@ -18,4 +18,5 @@
 //= require angular-rails-templates
 //= require angular-messages.min
 //= require bootstrap-sprockets
+//= require 'speech.js'
 //= require_tree .
