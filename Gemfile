@@ -16,7 +16,7 @@ gem "bower-rails", "~> 0.11.0"
 gem 'angular-rails-templates'
 
 gem 'devise'
-gem 'activeadmin'
+gem 'activeadmin', '~> 1.0'
 gem 'json', github: 'flori/json', branch: 'v1.8'
 gem 'bootstrap', '~> 4.3.1'
 # Use for icons
