@@ -18,4 +18,4 @@ module Webcup
   end
 end
 
-config.assets.initialize_on_precompile = false
+Rails.application.config.assets.initialize_on_precompile = false
