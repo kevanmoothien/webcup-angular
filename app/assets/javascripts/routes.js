@@ -11,6 +11,11 @@
           templateUrl: 'home/home.html',
           controller: 'HomeController as vm'
         })
+        .state('home.post', {
+          url: 'post/:id',
+          templateUrl: 'post/post.html',
+          controller: 'PostController as vm'
+        })
         .state('home.login', {
           url:'login',
           templateUrl: 'auth/login.html',
