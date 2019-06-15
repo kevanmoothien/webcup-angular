@@ -28,4 +28,6 @@ Rails.application.routes.draw do
   delete 'checklist/:checklist_id/items' => 'items#destroy'
 
   get 'backdoor' => 'backdoor#index'
+
+  resources :posts
 end

@@ -31,6 +31,7 @@ web:
     - SFDX_AUTOUPDATE_DISABLE=true
     - PUSHER_SOCKET_URL=ws://localhost:53945/app/pusher
     - PUSHER_URL=http://pusher:pusher@pusher:5000/apps/pusher
+    - GOOGLE_APPLICATION_CREDENTIALS=webcup-google.json
 pusher:
   build: .
   volumes:
