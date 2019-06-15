@@ -48,6 +48,8 @@ GEM
       ransack (>= 1.8.7)
       sass (~> 3.1)
       sprockets (< 4.1)
+    activeadmin_quill_editor (0.1.4)
+      activeadmin (~> 1.0)
     activejob (5.0.7)
       activesupport (= 5.0.7)
       globalid (>= 0.3.6)
@@ -322,6 +324,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers (~> 0.10.0)
   activeadmin (~> 1.0)
+  activeadmin_quill_editor
   angular-rails-templates
   bootstrap (~> 4.3.1)
   bower-rails (~> 0.11.0)

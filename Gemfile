@@ -70,3 +70,4 @@ gem 'google-cloud-vision'
 gem 'cloudinary'
 
 gem 'dotenv-rails', require: 'dotenv/rails-now', groups: [:development, :test]
+gem 'activeadmin_quill_editor'
