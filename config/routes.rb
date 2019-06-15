@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 
+  resources :posts
   authenticated(:user, ->(user) { user.admin? }) do
     ActiveAdmin.routes(self)
   end
