@@ -51475,10 +51475,6 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
       .factory('ItemFactory', ItemFactory);
 
 }());
-(function() {
-
-
-}).call(this);
 // Angular Rails Template
 // source: app/assets/javascripts/jobs/create.html
 
@@ -51820,8 +51816,25 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 
   'use strict';
 
-  function PostController($scope, Auth) {
+  function PostController($scope, Auth, $stateParams, $http, $sce) {
     var vm = this;
+    vm.postId = $stateParams.id;
+
+    $http.get('/posts/' + vm.postId + '.json')
+        .then(handleSuccess)
+        .catch(handleError)
+
+
+    function handleSuccess(response) {
+        
+        vm.post = response.data;
+        vm.post_body = $sce.trustAsHtml(response.data.body);
+        // return response.data;
+    };
+
+    function handleError(error) {
+        console.log(error);
+    };
 
     // callable methods on the vm
     vm.signedIn = Auth.isAuthenticated;
@@ -51865,7 +51878,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/post/post.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("post/post.html", '<div class="row form">\n  <div class="container mt-3">\n    <div class="card">\n      <div class="col-12">\n        <!-- title post -->\n        <h1>title 1</h1>\n      </div>\n      <div>\n        <img src="http://via.placeholder.com/640x360" class="card-img" alt="...">\n      </div>\n      <!-- <div class="embed-responsive embed-responsive-16by9"> -->\n        <!-- media -->\n        <!-- image -->\n        <!-- video -->\n        <!-- <video autoplay>\n            <source src="https://st3.depositphotos.com/17302234/19431/v/600/depositphotos_194319842-stock-video-close-healthy-breakfast-bowl-table.mp4" type="video/mp4">\n        </video> -->\n      <!-- </div> -->\n      <div class="card-body">\n          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis quasi mollitia tempora minima repellat blanditiis ad, dolor illo nobis autem perspiciatis debitis adipisci, voluptate aperiam corrupti? Labore sequi ut vel maxime rerum non incidunt, inventore obcaecati dignissimos porro provident voluptate consectetur quam! Quisquam quasi officiis aspernatur porro, in sapiente, aliquam consequatur ullam exercitationem reprehenderit velit expedita laborum officia vero amet similique error. Eos iste perferendis quae consectetur? Repudiandae laudantium obcaecati iure omnis doloremque sunt ut fugit sint! Quam similique enim ullam vero iure, vitae sint dolore quod inventore obcaecati eaque consectetur quos dolorum debitis ipsa. Sequi fugit saepe quisquam architecto?</p>\n      </div>\n    </div>\n  </div>\n</div>\n  ')
+  $templateCache.put("post/post.html", '<div class="row form" >\n  <div class="container mt-3">\n    <div class="card">\n      <div class="col-12">\n        <!-- title post -->\n        <h1>{{ vm.post.title }}</h1>\n        <h2>{{vm.post.subtitle}}</h2>\n      </div>\n      <div>\n        <img src="http://via.placeholder.com/640x360" class="card-img" alt="...">\n      </div>\n      <!-- <div class="embed-responsive embed-responsive-16by9"> -->\n        <!-- media -->\n        <!-- image -->\n        <!-- video -->\n        <!-- <video autoplay>\n            <source src="https://st3.depositphotos.com/17302234/19431/v/600/depositphotos_194319842-stock-video-close-healthy-breakfast-bowl-table.mp4" type="video/mp4">\n        </video> -->\n      <!-- </div> -->\n      <div class="card-body">\n          <p class="card-text">\n            <div ng-bind-html="vm.post_body"></div>            \n          </p>\n      </div>\n    </div>\n  </div>\n</div>\n  ')
 }]);
 
 (function(){
@@ -51882,7 +51895,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
           controller: 'HomeController as vm'
         })
         .state('home.post', {
-          url: '/post',
+          url: 'post/:id',
           templateUrl: 'post/post.html',
           controller: 'PostController as vm'
         })
