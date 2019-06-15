@@ -18,4 +18,6 @@
 //= require angular-rails-templates
 //= require angular-messages
 //= require bootstrap-sprockets
+//= require cloudinary
 //= require_tree .
+

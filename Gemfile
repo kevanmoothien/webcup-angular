@@ -67,6 +67,8 @@ gem 'pg', '0.18.4'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'google-cloud-vision'
+
+gem 'carrierwave'
 gem 'cloudinary'
 
 gem 'dotenv-rails', require: 'dotenv/rails-now', groups: [:development, :test]
