@@ -15,5 +15,6 @@ module Webcup
    config.to_prepare do
      DeviseController.respond_to :html, :json
    end
+   # config.assets.paths << Rails.root.join('vendor', 'assets')
   end
 end
