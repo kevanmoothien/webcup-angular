@@ -1,6 +1,7 @@
 <li class="string input optional stringish" id="post_image_input">
   <label for="post_image" class="label">Media</label>
   <input id="post_image" type="file" name="post[image]" accept="audio/*|video/*|image/*" onchange="uploadFile()">
+  <input type="hidden" id="post_url" name="post[url]" value="" />
 
   <div style="margin: 10px"></div>
   <div class="w3-light-grey">
@@ -13,9 +14,16 @@
 </style>
 
 <script>
+
+  var filetype = 'image';
 function find(el) {
     return document.getElementById(el);
 }
+
+document.getElementById('post_post_type').addEventListener('change', function(){
+    console.log('changes')
+    filetype  = document.getElementById('post_post_type').value
+})
 
 function uploadFile() {
     var file = find("post_image").files[0];
@@ -27,7 +35,8 @@ function uploadFile() {
     ajax.addEventListener("load", completeHandler, false);
     ajax.addEventListener("error", errorHandler, false);
     ajax.addEventListener("abort", abortHandler, false);
-    ajax.open("POST", "https://api.cloudinary.com/v1_1/kevan1881/image/upload?upload_preset=r9yzbndw");
+    var url = "https://api.cloudinary.com/v1_1/kevan1881/" + filetype + "/upload?upload_preset=yxsqbxwk&resource_type=auto";
+    ajax.open("POST", url);
     //use file_upload_parser.php from above url
     ajax.send(formdata);
 }
@@ -40,6 +49,10 @@ function progressHandler(event) {
 }
 
 function completeHandler(event) {
+    console.log(event.target.responseText);
+    var payload = JSON.parse(event.target.responseText)
+    var url = payload['url']
+    document.getElementById('post_url').value = url;
 //    _("status").innerHTML = event.target.responseText;
 //    _("progressBar").value = 0; //wil clear progress bar after successful upload
 }

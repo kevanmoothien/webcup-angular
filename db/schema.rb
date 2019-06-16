@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190615164847) do
+ActiveRecord::Schema.define(version: 20190616005342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,14 @@ ActiveRecord::Schema.define(version: 20190615164847) do
     t.integer  "job_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "contents", force: :cascade do |t|
+    t.string   "cloudinary"
+    t.string   "filename"
+    t.jsonb    "cloudinary_infos"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "customers", id: :bigserial, force: :cascade do |t|
@@ -70,6 +78,10 @@ ActiveRecord::Schema.define(version: 20190615164847) do
     t.string   "post_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "url"
+    t.string   "caption"
+    t.string   "alt_text"
+    t.text     "transcript"
   end
 
   create_table "users", force: :cascade do |t|
