@@ -50615,7 +50615,7 @@ var initQuillEditors = function() {
         };
 
         function goToJobs() {
-            $state.go('home.jobs');
+            window.location.href = '/admin/posts'
         };
 
     };
@@ -50628,7 +50628,7 @@ var initQuillEditors = function() {
 // source: app/assets/javascripts/auth/login.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("auth/login.html", '<div class="row form">\n    <div class="col-md-6 col-md-offset-3">\n        <div class="panel panel-default">\n            <div class="panel-header">\n                  <h2>Log In</h2>\n            </div>\n            <div class="panel-body">\n                <form ng-submit="vm.login()">\n                      <div class="form-group">\n                          Email:\n                          <input class="form-control" type="email" placeholder="Email" ng-model="vm.user.email">\n                      </div>\n                      <br />\n                      <div class="form-group">\n                          Password:\n                          <input class="form-control" type="password" placeholder="Password" ng-model="vm.user.password">\n                      </div>\n                      <br />\n                      <input class="btn btn-secondary" type="submit" value="Log In">\n                      <br />\n                </form>\n            </div>\n            <div class="panel-footer">\n              Not yet signed up? <a href="" ui-sref="home.register">Register here</a>\n            </div>\n        </div><!-- /.panel -->\n    </div><!-- /.col -->\n</div><!-- /.row -->')
+  $templateCache.put("auth/login.html", '<div class="row form justify-content-center login-page" >\n    <div class="col-md-6">\n        <div class="panel panel-default">\n            <div class="panel-header">\n                  <h2>Log In</h2>\n            </div>\n            <div class="panel-body">\n                <form ng-submit="vm.login()">\n                      <div class="form-group">\n                          Email:\n                          <input class="form-control" type="email" placeholder="Email" ng-model="vm.user.email">\n                      </div>\n                      <br />\n                      <div class="form-group">\n                          Password:\n                          <input class="form-control" type="password" placeholder="Password" ng-model="vm.user.password">\n                      </div>\n                      <br />\n                      <input class="btn btn-secondary" type="submit" value="Log In">\n                      <br />\n                </form>\n            </div>\n            <div class="panel-footer">\n              Not yet signed up? <a href="" ui-sref="home.register">Register here</a>\n            </div>\n        </div><!-- /.panel -->\n    </div><!-- /.col -->\n</div><!-- /.row -->')
 }]);
 
 // Angular Rails Template
@@ -51403,7 +51403,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 
   'use strict';
 
-  function HomeController($scope, Auth,$interval, $http, $state) {
+  function HomeController($scope, Auth,$interval, $http, $state, $sce) {
     var vm = this;
    
 
@@ -51429,6 +51429,12 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 
     function handleSuccess(response){
         vm.data = response.data;
+
+        for(var i = 0 ; i < vm.data.length; i++){
+            if(vm.data[i].post_type == 'video'){
+                vm.data[i].image = $sce.trustAsResourceUrl(vm.data[i].image);
+            }
+        }
         console.log('response: ' , response);
     }
 
@@ -51486,9 +51492,12 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/home/home.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("home/home.html", '<div class="wrapper-kevan">\n  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3" ng-controller="HomeController as vm">\n      <a class="navbar-brand" href="#">\n         <img class="img-responsive" style="width: 20px" src="http://res.cloudinary.com/kevan1881/image/upload/c_fit,h_500/v1560623640/logo_transparent_dyb6fg.png" alt="logo">\n      </a>\n        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">\n          <span class="navbar-toggler-icon"></span>\n        </button>\n        \n        <div class="collapse navbar-collapse" id="navbarSupportedContent">\n          <ul class="navbar-nav mr-auto">\n            <li class="nav-item active">\n              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>\n            </li>\n              <!--<li class="nav-item">-->\n                <!--<a class="nav-link" href="#" ui-sref="home.post">Post</a>-->\n              <!--</li>-->\n\n              <!--<li class="nav-item dropdown">-->\n                <!--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->\n                  <!--Dropdown-->\n                <!--</a>-->\n                <!--<div class="dropdown-menu" aria-labelledby="navbarDropdown">-->\n                  <!--<a class="dropdown-item" href="#">Action</a>-->\n                  <!--<a class="dropdown-item" href="#">Another action</a>-->\n                  <!--<div class="dropdown-divider"></div>-->\n                  <!--<a class="dropdown-item" href="#">Something else here</a>-->\n                <!--</div>-->\n              <!--</li>-->\n            </ul>\n            <ul class="navbar-nav ml-auto">\n                <li class="nav-item  justify-content-end">\n                    <a class="nav-link" href="#" ui-sref="home.contactus">Contact us</a>\n                </li>\n            </ul>\n        </div>\n    </nav>\n  <div id="main-container" class="container-fluid">\n    <ui-view id="main-ui-view">\n      <!-- Start slider -->\n      <div class="container">\n          <div class="row text-center timer">\n              <div class="col">\n                  <div class="{{\'d-inline-block progress-circle \'+dayP}}">\n                      <span>{{day}}</span>\n                      <div class="left-half-clipper">\n                          <div class="first50-bar"></div>\n                          <div class="value-bar"></div>\n                      </div>\n                  </div>\n                  <div>day</div>\n              </div>\n              <div class="col">\n                  <div class="{{\'d-inline-block progress-circle \'+hourP}}">\n                      <span>{{hour}}</span>\n                      <div class="left-half-clipper">\n                          <div class="first50-bar"></div>\n                          <div class="value-bar"></div>\n                      </div>\n                  </div>\n                  <div>hour</div>\n              </div>\n              <div class="col">\n                  <div class="{{\'d-inline-block progress-circle \'+minuteP}}">\n                      <span>{{minute}}</span>\n                      <div class="left-half-clipper">\n                          <div class="first50-bar"></div>\n                          <div class="value-bar"></div>\n                      </div>\n                  </div>\n                  <div>min</div>\n              </div>\n              <div class="col">\n                  <div class="{{\'d-inline-block progress-circle \'+secondP}}">\n                      <span>{{second}}</span>\n                      <div class="left-half-clipper">\n                          <div class="first50-bar"></div>\n                          <div class="value-bar"></div>\n                      </div>\n                  </div>\n                  <div>secs</div>\n              </div>\n          </div>\n      </div>\n      <!-- End slider -->\n\n      <div class="row">\n\n          <div class="col-12 col-md-6 col-lg-4" ng-repeat="post in vm.data" ng-click="vm.openPost(post.id)">\n              \n              <div class="card mb-3">\n                  <div class="row no-gutters">\n                    <div class="">\n                      <img src="http://via.placeholder.com/640x360" class="card-img" alt="...">\n                    </div>\n                    <div class="col-10">\n                      <div class="card-body">\n                        <h5 class="card-title">{{post.title}}</h5>\n                        <p class="card-text">{{post.subtitle}}</p>\n                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>\n                      </div>\n                    </div>\n                  </div>\n              </div>\n          </div>\n\n      </div>\n    </ui-view>\n  </div>\n</div>\n\n<hr />\n\n<footer class="container">\n  <div class="container-fluid">\n        <div class="row">\n          <div class="col-md-6">\n              <span class="copyright">Copyright &copy; <a href="http://webcup-rubix.herokuapp.com/about" target="_blank">Rubix Team</a> 2019</span>\n          </div>\n          <div class="col-md-6">\n          <span>Powered by Rubix Team</span>\n          </div>\n        </div>\n    </div>\n</footer>')
+  $templateCache.put("home/home.html", '<div class="wrapper-kevan">\n  <nav class="navbar navbar-expand-lg navbar-light mb-5 navbar-style" ng-controller="HomeController as vm">\n      <a class="navbar-brand" href="#">\n         <img class="img-responsive" style="width: 5rem" src="https://res.cloudinary.com/kevan1881/image/upload/s--J0mkvZVC--/v1560649100/logo_new_m9c14w.jpg" alt="logo">\n\n      </a>\n        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">\n          <span class="navbar-toggler-icon"></span>\n        </button>\n        \n        <div class="collapse navbar-collapse" id="navbarSupportedContent">\n          <ul class="navbar-nav mr-auto">\n\n              <!--<li class="nav-item">-->\n                <!--<a class="nav-link" href="#" ui-sref="home.post">Post</a>-->\n              <!--</li>-->\n\n              <!--<li class="nav-item dropdown">-->\n                <!--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->\n                  <!--Dropdown-->\n                <!--</a>-->\n                <!--<div class="dropdown-menu" aria-labelledby="navbarDropdown">-->\n                  <!--<a class="dropdown-item" href="#">Action</a>-->\n                  <!--<a class="dropdown-item" href="#">Another action</a>-->\n                  <!--<div class="dropdown-divider"></div>-->\n                  <!--<a class="dropdown-item" href="#">Something else here</a>-->\n                <!--</div>-->\n              <!--</li>-->\n            </ul>\n            <ul class="navbar-nav ml-auto">\n                <li class="nav-item  justify-content-end">\n                    <a class="nav-link" href="#" title="Go to login page" ui-sref="home.login">Login</a>\n                </li>\n                <li class="nav-item  justify-content-end">\n                    <a class="nav-link" href="#" title="Go to our hope page" ui-sref="home.research">Our Hope</a>\n                </li>\n            </ul>\n        </div>\n    </nav>\n  <div id="main-container" class="container-fluid">\n    <ui-view id="main-ui-view">\n      <!-- Start slider -->\n      <div class="container text-center mb-5">\n        <h1 class="hero-title apocalype-section">Apocalypse Day</h1>\n      </div>\n      <div class="container mb-5">\n          <div class="row text-center timer">\n              <div class="col">\n                  <div class="{{\'d-inline-block progress-circle \'+dayP}}">\n                      <span>{{day}}</span>\n                      <div class="left-half-clipper">\n                          <div class="first50-bar"></div>\n                          <div class="value-bar"></div>\n                      </div>\n                  </div>\n                  <div class="timer-text"><h3>day</h3></div>\n              </div>\n              <div class="col">\n                  <div class="{{\'d-inline-block progress-circle \'+hourP}}">\n                      <span>{{hour}}</span>\n                      <div class="left-half-clipper">\n                          <div class="first50-bar"></div>\n                          <div class="value-bar"></div>\n                      </div>\n                  </div>\n                  <div class="timer-text"><h3>hour</h3></div>\n              </div>\n              <div class="col">\n                  <div class="{{\'d-inline-block progress-circle \'+minuteP}}">\n                      <span>{{minute}}</span>\n                      <div class="left-half-clipper">\n                          <div class="first50-bar"></div>\n                          <div class="value-bar"></div>\n                      </div>\n                  </div>\n                  <div class="timer-text"><h3>min</h3></div>\n              </div>\n              <div class="col">\n                  <div class="{{\'d-inline-block progress-circle \'+secondP}}">\n                      <span>{{second}}</span>\n                      <div class="left-half-clipper">\n                          <div class="first50-bar"></div>\n                          <div class="value-bar"></div>\n                      </div>\n                  </div>\n                  <div class="timer-text"><h3>secs</h3></div>\n              </div>\n          </div>\n        </article>\n      </div>\n      <!-- End slider -->\n      <!-- Blog section -->\n      <div class="container text-center mb-5 mt-5">\n          <h1 class="news-title">Top News</h1>\n      </div>\n      <div class="row">\n          <div class="col-12 col-md-6 col-lg-4" ng-repeat="post in vm.data" ng-click="vm.openPost(post.id)">\n              <article title="{{post.title}}">\n              <div class="card mb-3">\n                  <div class="row no-gutters">\n                    \n                      <div class="embed-responsive embed-responsive-16by9" ng-if="post.post_type == \'video\'" >\n                          <video>\n                            <source ng-src="{{post.image}}" type="video/mp4" >\n                          </video>\n                        </div>\n                      <img style="height: 17rem; object-fit: contain;" ng-if="post.post_type == \'image\'" ng-src="{{post.image}}" class="card-img" alt="{{post.alt_text}}">\n\n                    <div class="col-10">\n                      <div class="card-body">\n                        <h5 class="card-title">{{post.title}}</h5>\n                        <p class="card-text">{{post.subtitle}}</p>\n                        <p class="card-text"><small class="text-muted">Added date: {{post.created_date}}</small></p>\n                      </div>\n                    </div>\n                  </div>\n              </div>\n            </article>\n          </div>\n\n      </div>\n    </ui-view>\n  </div>\n</div>\n\n<hr />\n\n<footer class="container-fluid navbar-style text-center ">\n  <div class="container-fluid navbar-style">\n        <div class="row">\n          <div class="col-12 mt-3">\n            <p>Build with <span style="color: red">&#10084;</span> by <span><a> Rubix @Copyright </a></span></p>\n        </div>\n    </div>\n</footer>')
 }]);
 
+!function(n,o){"object"==typeof exports&&"object"==typeof module?module.exports=o():"function"==typeof define&&define.amd?define([],o):"object"==typeof exports?exports.anycontrol=o():n.anycontrol=o()}(this,function(){return function(n){function o(i){if(t[i])return t[i].exports;var e=t[i]={i:i,l:!1,exports:{}};return n[i].call(e.exports,e,e.exports,o),e.l=!0,e.exports}var t={};return o.m=n,o.c=t,o.d=function(n,t,i){o.o(n,t)||Object.defineProperty(n,t,{configurable:!1,enumerable:!0,get:i})},o.n=function(n){var t=n&&n.__esModule?function(){return n.default}:function(){return n};return o.d(t,"a",t),t},o.o=function(n,o){return Object.prototype.hasOwnProperty.call(n,o)},o.p="",o(o.s=0)}([function(n,o,t){"use strict";Object.defineProperty(o,"__esModule",{value:!0});var i=function(){var n=this,o=window.webkitSpeechRecognition||window.SpeechRecognition;return this.recognition=new o,this.finalTranscript="",this.commands={},this.DEBUG=!1,this.recognizing=!1,this.recognition.onresult=function(o){if(void 0===o.results)return n.DEBUG&&console.info("undefined result"),void n.recognition.stop();for(var t=o.resultIndex;t<o.results.length;t+=1)o.results[t].isFinal&&(n.finalTranscript+=o.results[t][0].transcript);if(""!==n.finalTranscript){n.DEBUG&&console.info("received command:",n.finalTranscript),n.finalTranscript=n.finalTranscript.toLowerCase().trim();var i=n.commands;Object.keys(i).forEach(function(o){if(n.finalTranscript.indexOf(o)>-1)if(void 0===n.finalTranscript[o.length])n.DEBUG&&console.info("calling command",o),n.commands[o]();else if(" "===n.finalTranscript[o.length]){var t=n.finalTranscript.substring(o.length,n.finalTranscript.length).trim();n.commands[o](t),n.DEBUG&&console.info("calling command",o,"with param:",t)}}),n.finalTranscript=""}else n.DEBUG&&console.info("received empty command")},this.recognition.onerror=function(o){n.DEBUG&&console.info("error occured",o)},this.recognition.onstart=function(o){n.DEBUG&&console.info("start",o),n.recognizing=!0},this.recognition.onend=function(o){n.DEBUG&&console.info("end",o),n.recognizing=!1,n.recognition.continuous&&(n.DEBUG&&console.info("restarting",n.recognition.continuous),n.recognition.start())},this};i.prototype.isSupported=function(){return!!this.recognition},i.prototype.addCommand=function(n,o){this.DEBUG&&console.info("added command:",n),this.commands[n.toLowerCase()]=o},i.prototype.removeCommand=function(n){return this.DEBUG&&console.info("removed command:",n),!!this.commands[n]&&(delete this.commands[n],!0)},i.prototype.start=function(){this.DEBUG&&console.info("started listening"),this.recognition.continuous=!0,this.recognition.start()},i.prototype.stop=function(){this.DEBUG&&console.info("stopped listening"),this.recognition.continuous=!1,this.recognition.stop()},i.prototype.getCommand=function(){var n=this,o=1;this.isRecognizing()&&(this.stop(),o=1e3),setTimeout(function(){n.DEBUG&&console.info("listening for single command"),n.recognition.continuous=!1,n.recognition.start()},o)},i.prototype.debug=function(n){this.DEBUG=!!n},i.prototype.isRecognizing=function(){return this.recognizing};var e=i;o.default=e,n.exports=e}])});
+//# sourceMappingURL=index.umd.min.js.map
+;
 (function() {
 
 
@@ -51922,8 +51931,17 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 
     function handleSuccess(response) {
         
+        console.log('this response: ', response);
         vm.post = response.data;
         vm.post_body = $sce.trustAsHtml(response.data.body);
+        vm.post.transcript = $sce.trustAsHtml(response.data.transcript);
+        
+        console.log('pt:' , vm.post.post_type);
+        if(vm.post.post_type == 'video'){
+            vm.video_url = $sce.trustAsResourceUrl(response.data.image);
+        }
+
+        console.log('vmposturl', vm.post.image);
         // return response.data;
     };
 
@@ -51972,7 +51990,59 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/post/post.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("post/post.html", '<div class="row form">\n  <div class="container mt-3">\n    <div class="card">\n      <div class="col-12">\n        <!-- title post -->\n        <h1 id="title">{{ vm.post.title }} <button class="btn btn-default btn-outline-primary" onclick="run(\'title\')"><i class="fas fa-volume-up"></i></button></h1>\n        <h2 id="subtitle">{{vm.post.subtitle}} <button class="btn btn-default btn-outline-primary" onclick="run(\'subtitle\')"><i class="fas fa-volume-up"></i></button></h2>\n\n      </div>\n      <div>\n        <img ng-src="{{vm.post.image}}" class="card-img" alt="...">\n      </div>\n      <!-- <div class="embed-responsive embed-responsive-16by9"> -->\n        <!-- media -->\n        <!-- image -->\n        <!-- video -->\n        <!-- <video autoplay>\n            <source src="https://st3.depositphotos.com/17302234/19431/v/600/depositphotos_194319842-stock-video-close-healthy-breakfast-bowl-table.mp4" type="video/mp4">\n        </video> -->\n      <!-- </div> -->\n      <div class="card-body">\n          <p class="card-text">\n              <button class="btn btn-default btn-outline-primary" onclick="run(\'post_body\')"><i class="fas fa-volume-up fa-2x"></i></button>\n            <article ng-bind-html="vm.post_body" id="post_body"></article>\n          </p>\n      </div>\n    </div>\n  </div>\n</div>\n  ')
+  $templateCache.put("post/post.html", '<div class="row form">\n  <div class="container mt-3">\n    <div class="card">\n      <div class="col-12">\n        <!-- title post -->\n        <h1 id="title">{{ vm.post.title }} <button class="btn btn-default btn-outline-primary" onclick="run(\'title\')"><i class="fas fa-volume-up"></i></button></h1>\n        <h2 id="subtitle">{{vm.post.subtitle}} <button class="btn btn-default btn-outline-primary" onclick="run(\'subtitle\')"><i class="fas fa-volume-up"></i></button></h2>\n\n      </div>\n\n\n     <img  ng-if="vm.post.post_type == \'image\'" ng-src="{{vm.post.image}}" class="card-img" alt="{{ vm.post.alt_text }}"/>\n\n      <div ng-if="vm.post.post_type == \'video\'"> \n        <div class=\'container\'>\n          <div class="row">\n            <div class="col-md-8">\n                <div class="embed-responsive embed-responsive-16by9">\n                  <video controls>\n                    <source ng-src="{{vm.video_url}}" type="video/mp4" >\n                  </video>\n                </div>\n            </div>\n            <div class="col-md-4">\n               <h3>\n                 Transcript\n               </h3>\n               <section ng-bind-html="vm.post.transcript">\n\n               </section>\n               </p>\n            </div>\n          </div>\n        </div>\n      </div>\n      <!-- <div class="embed-responsive embed-responsive-16by9"> -->\n        <!-- media -->\n        <!-- image -->\n        <!-- video -->\n        <!-- <video autoplay>\n            <source src="https://st3.depositphotos.com/17302234/19431/v/600/depositphotos_194319842-stock-video-close-healthy-breakfast-bowl-table.mp4" type="video/mp4">\n        </video> -->\n      <!-- </div> -->\n      <div class="card-body">\n          <p class="card-text">\n              <button class="btn btn-default btn-outline-primary" onclick="run(\'post_body\')"><i class="fas fa-volume-up fa-2x"></i></button>\n            <article ng-bind-html="vm.post_body" id="post_body"  title="{{vm.post.title}}"></article>\n          </p>\n      </div>\n    </div>\n  </div>\n</div>\n  ')
+}]);
+
+(function() {
+
+  'use strict';
+
+  function ResearchController($scope, Auth) {
+    var vm = this;
+
+    // callable methods on the vm
+    vm.signedIn = Auth.isAuthenticated;
+    vm.logout = Auth.logout;
+
+    //instantiated info
+    activate();
+
+    //defined methods on the vm
+    function activate() {
+        getCurrentUser();
+    };
+
+    function getCurrentUser() {
+        return Auth.currentUser()
+                   .then(setCurrentUser);
+    };
+
+    function setCurrentUser(user) {
+        return vm.user = user;
+    };
+
+    //event listeners for user authentication and logout
+    $scope.$on('devise:new-registration', function(e, user){
+        return vm.user = user;
+    });
+    $scope.$on('devise:login', function(e, user){
+        return vm.user = user;
+    });
+    $scope.$on('devise:logout', function(e, user){
+        return vm.user = {};
+    });
+
+  };
+
+  angular
+    .module('app')
+    .controller('ResearchController', ResearchController);
+}());
+// Angular Rails Template
+// source: app/assets/javascripts/research/research.html
+
+angular.module("templates").run(["$templateCache", function($templateCache) {
+  $templateCache.put("research/research.html", '<div class="container">\n  <div class="row">\n    <img class="mx-auto" src="https://media.giphy.com/media/13twUEuUnCrEju/giphy.gif" alt="research page banner">\n  </div>\n  <br/>\n  <div class="row">\n      <div class="card mb-3">\n        <div class="row">\n            <div class="col-md-4">\n              <img src="https://irp-cdn.multiscreensite.com/32382e53/dms3rep/multi/mobile/lab-500x333.png" class="card-img" alt="Dr Jon Snow at work">\n            </div>\n          <div class="col-md-8">\n            <div class="card-body">\n              <h5 class="card-title">Medical Research</h5>\n              <p class="card-text">Our team of researchers led by Dr Jon Snow are collaborating with the World Health Organisation in order to develop a vaccine for the alien virus. having joined the collective worldwide force against the alien invasion, we are on the forefront in the battle against the alien virus pandemic</p>\n              <p class="card-text">Having an extensive experience in pathogenic medecine. Dr Snow is one of the pioneers of the alien counter measure task force. His expertise consists of one of our greatest weapons in the war against invasion and complete and utter annihilation</p>\n              <p class="card-text"></p>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  <div class="row">\n      <div class="card mb-3">\n        <div class="row">\n          <div class="col-md-8">\n            <div class="card-body">\n              <h5 class="card-title">State of the art facilities</h5>\n              <p class="card-text">The majority of our funds are utilised to fund the research and developent of an antidote against the virus. A major part of this consists of providing our experts with latest technologies such as microparticle blasters, interelectron containers; which are high radioactive materials and the cause of our decline. However, they are also the key to our success against the extraterrestial threat.</p>\n              <p class="card-text"></p>\n            </div>\n          </div>\n          <div class="col-md-4">\n            <img src="https://www.labmanager.com/media/Print_Images/March2018/Mar18_LS_Future_640x360.jpg" class="card-img" alt="our laboratory facilities">\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class="row">\n        <div class="card mb-3">\n          <div class="row">\n              <div class="col-md-4">\n                <img src="https://steamuserimages-a.akamaihd.net/ugc/28480142332541420/A3FF5056834A5F4764B60BF3005BA3682AF2F9D8/" class="card-img" alt="our laboratory facilities">\n              </div>\n            <div class="col-md-8">\n              <div class="card-body">\n                <h5 class="card-title">Biohazard!</h5>\n                <p class="card-text">A major risk involved when handling material coming fron deep space is that they are highly radioactive. The elements have enough radiation level that they can power Mega cities like New York for centuries!</p>\n                <p class="card-text">Individuals and populations exposed to high doses of radiation display various types of detrimental effects. In some cases, the severity of these effects in an individual is proportional to the dose delivered – the higher the dose the greater the severity. Examples of such proportional effects are erythema (reddening of the skin), epilation (loss of hair), cataracts and “acute radiation syndrome.” These are known as deterministic effects and they all display a threshold: below a certain dose, no effects are observed.</p>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <div class="row">\n          <div class="card mb-3">\n            <div class="row">\n                <div class="col-md-4">\n                  <img src="https://res.cloudinary.com/kevan1881/image/upload/v1560660888/donateRed_lxiqjt.png" class="card-img" alt="Donate to our cause">\n                </div>\n              <div class="col-md-8">\n                <div class="card-body">\n                  <h5 class="card-title"></h5>\n                  <h3 class="text-center">“A small donation today will is another step to the triumph of humanity”</h3>\n                  <div class="d-flex justify-content-center mt-5">\n                  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">\n                    <input type="hidden" name="cmd" value="_donations" />\n                    <input type="hidden" name="business" value="kev1881@hotmail.com" />\n                    <input type="hidden" name="item_name" value="Contribute for our Future" />\n                    <input type="hidden" name="currency_code" value="EUR" />\n                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />\n                    <img alt="" border="0" src="https://www.paypal.com/en_MU/i/scr/pixel.gif" width="1" height="1" />\n                    </form>\n                    </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n</div>\n  ')
 }]);
 
 (function(){
@@ -51999,7 +52069,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
           controller: 'AuthController as vm',
           onEnter: function($state, Auth) {
             Auth.currentUser().then(function(){
-                $state.go('home.jobs');
+                window.location.href = '/admin';
             });
           }
         })
@@ -52037,6 +52107,11 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
           url: 'jobs/:jobId/checklist',
           templateUrl: 'checklists/show.html',
           controller: 'ChecklistsController as vm'
+        })
+        .state('home.research', {
+          url: 'research',
+          templateUrl: 'research/research.html',
+          controller: 'ResearchController as vm'
         });
       $urlRouterProvider.otherwise('/')
     })

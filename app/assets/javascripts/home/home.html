@@ -2,6 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-light mb-5 navbar-style" ng-controller="HomeController as vm">
       <a class="navbar-brand" href="#">
          <img class="img-responsive" style="width: 5rem" src="https://res.cloudinary.com/kevan1881/image/upload/s--J0mkvZVC--/v1560649100/logo_new_m9c14w.jpg" alt="logo">
+
       </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -9,6 +10,7 @@
         
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
+
               <!--<li class="nav-item">-->
                 <!--<a class="nav-link" href="#" ui-sref="home.post">Post</a>-->
               <!--</li>-->
@@ -27,7 +29,10 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item  justify-content-end">
-                    <a class="nav-link" href="#" ui-sref="home.contactus">Contact us</a>
+                    <a class="nav-link" href="#" title="Go to login page" ui-sref="home.login">Login</a>
+                </li>
+                <li class="nav-item  justify-content-end">
+                    <a class="nav-link" href="#" title="Go to our hope page" ui-sref="home.research">Our Hope</a>
                 </li>
             </ul>
         </div>
@@ -81,6 +86,7 @@
                   <div class="timer-text"><h3>secs</h3></div>
               </div>
           </div>
+        </article>
       </div>
       <!-- End slider -->
       <!-- Blog section -->
@@ -88,9 +94,8 @@
           <h1 class="news-title">Top News</h1>
       </div>
       <div class="row">
-
           <div class="col-12 col-md-6 col-lg-4" ng-repeat="post in vm.data" ng-click="vm.openPost(post.id)">
-              
+              <article title="{{post.title}}">
               <div class="card mb-3">
                   <div class="row no-gutters">
                     
@@ -99,7 +104,7 @@
                             <source ng-src="{{post.image}}" type="video/mp4" >
                           </video>
                         </div>
-                      <img ng-if="post.post_type == 'image'" ng-src="{{post.image}}" class="card-img" alt="{{post.alt_text}}">
+                      <img style="height: 17rem; object-fit: contain;" ng-if="post.post_type == 'image'" ng-src="{{post.image}}" class="card-img" alt="{{post.alt_text}}">
 
                     <div class="col-10">
                       <div class="card-body">
@@ -110,6 +115,7 @@
                     </div>
                   </div>
               </div>
+            </article>
           </div>
 
       </div>

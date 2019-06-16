@@ -60,6 +60,11 @@
           url: 'jobs/:jobId/checklist',
           templateUrl: 'checklists/show.html',
           controller: 'ChecklistsController as vm'
+        })
+        .state('home.research', {
+          url: 'research',
+          templateUrl: 'research/research.html',
+          controller: 'ResearchController as vm'
         });
       $urlRouterProvider.otherwise('/')
     })

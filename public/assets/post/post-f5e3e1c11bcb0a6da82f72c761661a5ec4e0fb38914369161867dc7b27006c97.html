@@ -1,15 +1,15 @@
-<div class="row form" >
+<div class="row form">
   <div class="container mt-3">
     <div class="card">
       <div class="col-12">
         <!-- title post -->
-        <h1>{{ vm.post.title }}</h1>
-        <h2>{{vm.post.subtitle}}</h2>
+        <h1 id="title">{{ vm.post.title }} <button class="btn btn-default btn-outline-primary" onclick="run('title')"><i class="fas fa-volume-up"></i></button></h1>
+        <h2 id="subtitle">{{vm.post.subtitle}} <button class="btn btn-default btn-outline-primary" onclick="run('subtitle')"><i class="fas fa-volume-up"></i></button></h2>
+
       </div>
 
-      <div ng-if="vm.post.post_type == 'image'">
-        <img ng-src="{{vm.post.image}}" class="card-img" alt="...">
-      </div>
+
+     <img  ng-if="vm.post.post_type == 'image'" ng-src="{{vm.post.image}}" class="card-img" alt="{{ vm.post.alt_text }}"/>
 
       <div ng-if="vm.post.post_type == 'video'"> 
         <div class='container'>
@@ -43,7 +43,8 @@
       <!-- </div> -->
       <div class="card-body">
           <p class="card-text">
-            <div ng-bind-html="vm.post_body"></div>            
+              <button class="btn btn-default btn-outline-primary" onclick="run('post_body')"><i class="fas fa-volume-up fa-2x"></i></button>
+            <article ng-bind-html="vm.post_body" id="post_body"  title="{{vm.post.title}}"></article>
           </p>
       </div>
     </div>
