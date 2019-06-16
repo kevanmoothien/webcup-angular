@@ -1,7 +1,7 @@
 <div class="wrapper-kevan">
   <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3" ng-controller="HomeController as vm">
-      <a class="navbar-brand" href="#">
-         <img class="img-responsive" style="width: 20px" src="http://res.cloudinary.com/kevan1881/image/upload/c_fit,h_500/v1560623640/logo_transparent_dyb6fg.png" alt="logo">
+      <a class="navbar-brand" href="#" title="Go to home page">
+         <img class="img-responsive" style="width: 20px" src="http://res.cloudinary.com/kevan1881/image/upload/c_fit,h_500/v1560623640/logo_transparent_dyb6fg.png" alt="website logo">
       </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -10,7 +10,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="#" title"Go to home page">Home<span class="sr-only">(current)</span></a>
             </li>
               <!--<li class="nav-item">-->
                 <!--<a class="nav-link" href="#" ui-sref="home.post">Post</a>-->
@@ -30,7 +30,7 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item  justify-content-end">
-                    <a class="nav-link" href="#" ui-sref="home.contactus">Contact us</a>
+                    <a class="nav-link" href="#" title="Go to contact us page" ui-sref="home.contactus">Contact us</a>
                 </li>
             </ul>
         </div>
@@ -39,6 +39,7 @@
     <ui-view id="main-ui-view">
       <!-- Start slider -->
       <div class="container">
+        <article title="{{'Time remaining till invasion is '+day+' days '+hour+' hours '+minute+' minutes'}}"></article>
           <div class="row text-center timer">
               <div class="col">
                   <div class="{{'d-inline-block progress-circle '+dayP}}">
@@ -81,11 +82,13 @@
                   <div>secs</div>
               </div>
           </div>
+        </article>
       </div>
       <!-- End slider -->
 
       <div class="row">
           <div class="col-12 col-md-6 col-lg-4">
+            <article title="post caption">
               <div class="card mb-3">
                   <div class="row no-gutters">
                     <div class="">
@@ -100,8 +103,10 @@
                     </div>
                   </div>
               </div>
+            </article>
           </div>
           <div class="col-12 col-md-6 col-lg-4">
+            <article title="post caption">
               <div class="card mb-3">
                   <div class="row no-gutters">
                     <div class="">
@@ -116,8 +121,10 @@
                     </div>
                   </div>
               </div>
+            </article>
           </div>
           <div class="col-12 col-md-6 col-lg-4">
+            <article title="post caption">
               <div class="card mb-3">
                   <div class="row no-gutters">
                     <div class="">
@@ -132,8 +139,10 @@
                     </div>
                   </div>
                 </div>
+              </article>
           </div>
           <div class="col-12 col-md-6 col-lg-4">
+            <article title="post caption">
               <div class="card mb-3">
                   <div class="row no-gutters">
                     <div class="">
@@ -148,8 +157,10 @@
                     </div>
                   </div>
                 </div>
+              </article>
           </div>
           <div class="col-12 col-md-6 col-lg-4">
+            <article title="post caption">
               <div class="card mb-3">
                   <div class="row no-gutters">
                     <div class="">
@@ -164,8 +175,10 @@
                     </div>
                   </div>
                 </div>
+              </article>
           </div>
           <div class="col-12 col-md-6 col-lg-4">
+            <article title="post caption">
               <div class="card mb-3">
                   <div class="row no-gutters">
                     <div class="">
@@ -180,6 +193,7 @@
                     </div>
                   </div>
                 </div>
+              </article>
           </div>
       </div>
     </ui-view>
@@ -192,7 +206,7 @@
   <div class="container-fluid">
         <div class="row">
           <div class="col-md-6">
-              <span class="copyright">Copyright &copy; <a href="http://webcup-rubix.herokuapp.com/about" target="_blank">Rubix Team</a> 2019</span>
+              <span class="copyright">Copyright &copy; <a href="http://webcup-rubix.herokuapp.com/about" target="_blank" title="Go to about us page">Rubix Team</a> 2019</span>
           </div>
           <div class="col-md-6">
           <span>Powered by Rubix Team</span>
