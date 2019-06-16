@@ -2,7 +2,7 @@
 
   'use strict';
 
-  function HomeController($scope, Auth,$interval, $http, $state) {
+  function HomeController($scope, Auth,$interval, $http, $state, $sce) {
     var vm = this;
    
 
@@ -28,6 +28,12 @@
 
     function handleSuccess(response){
         vm.data = response.data;
+
+        for(var i = 0 ; i < vm.data.length; i++){
+            if(vm.data[i].post_type == 'video'){
+                vm.data[i].image = $sce.trustAsResourceUrl(vm.data[i].image);
+            }
+        }
         console.log('response: ' , response);
     }
 
