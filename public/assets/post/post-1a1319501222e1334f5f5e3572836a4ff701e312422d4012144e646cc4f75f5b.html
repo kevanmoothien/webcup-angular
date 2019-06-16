@@ -6,26 +6,8 @@
         <h1>{{ vm.post.title }}</h1>
         <h2>{{vm.post.subtitle}}</h2>
       </div>
-      
-      <div ng-if="vm.post.post_type == 'image'">
+      <div>
         <img ng-src="{{vm.post.image}}" class="card-img" alt="...">
-      </div>
-
-      <div ng-if="vm.post.post_type == 'video'"> 
-        <div class='container'>
-          <div class="row">
-            <div class="col-md-8">
-                <video controls>
-                  <source src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" type="video/mp4" >
-                </video>
-            </div>
-            <div class="col-md-4">
-               <p>
-                 transcript goes here
-               </p>
-            </div>
-          </div>
-        </div>
       </div>
       <!-- <div class="embed-responsive embed-responsive-16by9"> -->
         <!-- media -->

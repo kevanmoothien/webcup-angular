@@ -85,6 +85,10 @@ GEM
     bower-rails (0.11.0)
     builder (3.2.3)
     byebug (10.0.2)
+    carrierwave (1.3.1)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
     case_transform (0.2)
       activesupport
     cloudinary (1.11.1)
@@ -329,6 +333,7 @@ DEPENDENCIES
   bootstrap (~> 4.3.1)
   bower-rails (~> 0.11.0)
   byebug
+  carrierwave
   cloudinary
   coffee-rails (~> 4.2)
   devise
