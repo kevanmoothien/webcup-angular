@@ -12,18 +12,20 @@ ActiveAdmin.register Post do
 #   permitted
 # end
 
-  permit_params :title, :subtitle, :body, :post_type
+  permit_params :title, :subtitle, :body, :post_type, :url
 
   form title: 'New post' do |f|
     inputs 'Details' do
       input :title
       input :subtitle
       input :body, as: :quill_editor
+      input :caption
       input :post_type, as: :select, collection: ['image', 'video', 'audio', 'normal']
+      render partial: 'uploader'
+      input :alt_text
+      input :transcript, as: :quill_editor
     end
 
     f.actions
-
   end
-
 end
