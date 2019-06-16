@@ -13,8 +13,17 @@
 
     function handleSuccess(response) {
         
+        console.log('this response: ', response);
         vm.post = response.data;
         vm.post_body = $sce.trustAsHtml(response.data.body);
+        vm.post.transcript = $sce.trustAsHtml(response.data.transcript);
+        
+        console.log('pt:' , vm.post.post_type);
+        if(vm.post.post_type == 'video'){
+            vm.video_url = $sce.trustAsResourceUrl(response.data.image);
+        }
+
+        console.log('vmposturl', vm.post.image);
         // return response.data;
     };
 

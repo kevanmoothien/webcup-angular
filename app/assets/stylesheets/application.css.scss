@@ -19,13 +19,47 @@
 //@import "bootstrap-sprockets";
 @import "bootstrap";
 
+@font-face {
+    font-family: 'Tiresias_Infofont';
+    src: url('public/font/Tiresias_Infofont.ttf');
+}
+html, body {
+    font-family: 'Tiresias_Infofont', sans-serif; /*Specify your font name here*/
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    background-color:#202124;
+}
+
+.navbar-style{
+    background-color:#fff;
+}
+
+.hero-title{
+    color:#fff;
+    text-transform: uppercase;
+}
+
+.news-title{
+    color:#fff;
+    text-transform: uppercase; 
+}
+
+.timer-text{
+    color:#d32f2f;
+    text-transform: uppercase;
+
+}
+
+.card.mb-3 {
+    border: 7px solid rgba(255,255,255,1);
+}
 .progress-circle {
     margin: 10px;
     position: relative; /* so that children can be absolutely positioned */
     padding: 0;
     width: 5em;
     height: 5em;
-    background-color: #F2E9E1; 
+    background-color:#202124; 
     border-radius: 50%;
     line-height: 5em;
  }
@@ -40,7 +74,7 @@
      border-radius: 50%;
      width: 4.3em;
      height: 4.3em;
-     background-color: white;
+     background-color:  #202124;
      content: " ";
  }
  /* Text inside the control */
@@ -50,7 +84,7 @@
      width: 5em;
      text-align: center;
      display: block;
-     color: #53777A;
+     color:#d32f2f;
      z-index: 2;
  }
  .left-half-clipper { 
@@ -74,7 +108,7 @@
     width: 5em;
     height: 5em;
     border-radius: 50%;
-    border: 0.45em solid #53777A; /*The border is 0.35 but making it larger removes visual artifacts */
+    border: 0.45em solid #d32f2f; /*The border is 0.35 but making it larger removes visual artifacts */
     /*background-color: #4D642D;*/ /* for debug */
     box-sizing: border-box;
    
@@ -84,7 +118,7 @@
     /*Progress bar for the first 50%, filling the whole right half*/
     position: absolute; /*needed for clipping*/
     clip: rect(0, 5em, 5em, 2.5em);
-    background-color: #53777A;
+    background-color: #d32f2f;
     border-radius: 50%;
     width: 5em;
     height: 5em;
@@ -200,15 +234,26 @@
   display: none;
 }
 
+.apocalype-section{
+    display: none;
+}
+
 // Small devices (landscape phones, 576px and up)
 @media (min-width: 576px) {
   .progress-circle {
-
     font-size: 1rem;
   }
   .timer {
     display: flex;
   }
+  .hero-title{
+    font-size: 2.5rem;
+  }
+
+  .news-title{
+    font-size: 2.5rem;  
+  }
+
 }
 
 // Medium devices (tablets, 768px and up)
@@ -220,6 +265,15 @@
 @media (min-width: 992px) {
   .progress-circle {
     font-size: 2rem;
+  }
+  .hero-title{
+    font-size: 4.5rem;
+  }
+  .apocalype-section{
+    display: block;
+  }
+  .news-title{
+      font-size: 4.5rem;
   }
 }
 

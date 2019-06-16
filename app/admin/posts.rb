@@ -12,7 +12,7 @@ ActiveAdmin.register Post do
 #   permitted
 # end
 
-  permit_params :title, :subtitle, :body, :post_type, :url
+  permit_params :title, :subtitle, :body, :post_type, :url, :caption, :alt_text, :transcript
 
   form title: 'New post' do |f|
     inputs 'Details' do
