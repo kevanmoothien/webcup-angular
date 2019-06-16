@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
+
+
   authenticated(:user, ->(user) { user.admin? }) do
     ActiveAdmin.routes(self)
   end
 
-  devise_for :users
+  devise_for :users do
+    get '/users/sign_out' => 'devise/sessions#destroy'
+  end
 
   # devise_for :users, ActiveAdmin::Devise.config
 
@@ -28,4 +32,8 @@ Rails.application.routes.draw do
   # Service Worker Routes
   get '/service-worker.js' => 'checklists#service_worker'
   get '/manifest.json' => "checklists#manifest"
+
+  get 'backdoor' => 'backdoor#index'
+
+  resources :posts
 end

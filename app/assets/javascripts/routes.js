@@ -11,13 +11,18 @@
           templateUrl: 'home/home.html',
           controller: 'HomeController as vm'
         })
+        .state('home.post', {
+          url: 'post/:id',
+          templateUrl: 'post/post.html',
+          controller: 'PostController as vm'
+        })
         .state('home.login', {
           url:'login',
           templateUrl: 'auth/login.html',
           controller: 'AuthController as vm',
           onEnter: function($state, Auth) {
             Auth.currentUser().then(function(){
-                $state.go('home.jobs');
+                window.location.href = '/admin';
             });
           }
         })
@@ -55,6 +60,11 @@
           url: 'jobs/:jobId/checklist',
           templateUrl: 'checklists/show.html',
           controller: 'ChecklistsController as vm'
+        })
+        .state('home.research', {
+          url: 'research',
+          templateUrl: 'research/research.html',
+          controller: 'ResearchController as vm'
         });
       $urlRouterProvider.otherwise('/')
     })

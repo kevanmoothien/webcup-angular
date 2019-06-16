@@ -16,11 +16,12 @@ gem "bower-rails", "~> 0.11.0"
 gem 'angular-rails-templates'
 
 gem 'devise'
-gem 'activeadmin'
+gem 'activeadmin', '~> 1.0'
 gem 'json', github: 'flori/json', branch: 'v1.8'
-gem 'bootstrap-sass', '~> 3.3.6'
+gem 'bootstrap', '~> 4.3.1'
 # Use for icons
-gem 'font-awesome-sass', '~> 4.7.0'
+# gem 'font-awesome-sass', '~> 4.7.0'
+gem 'font-awesome5-rails'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
@@ -65,3 +66,10 @@ gem 'pg', '0.18.4'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'google-cloud-vision'
+
+gem 'carrierwave'
+gem 'cloudinary'
+
+gem 'dotenv-rails', require: 'dotenv/rails-now', groups: [:development, :test]
+gem 'activeadmin_quill_editor'
