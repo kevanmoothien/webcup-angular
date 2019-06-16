@@ -2,8 +2,9 @@
 
   'use strict';
 
-  function HomeController($scope, Auth,$interval) {
+  function HomeController($scope, Auth,$interval, $http, $state) {
     var vm = this;
+   
 
     // callable methods on the vm
     vm.signedIn = Auth.isAuthenticated;
@@ -15,6 +16,9 @@
     //defined methods on the vm
     function activate() {
         getCurrentUser();
+        $http.get('/posts.json')
+        .then(handleSuccess)
+        .catch(handleError)
     };
 
     function getCurrentUser() {
@@ -22,9 +26,24 @@
                    .then(setCurrentUser);
     };
 
-    function setCurrentUser(user) {
-        return vm.user = user;
+    function handleSuccess(response){
+        vm.data = response.data;
+        console.log('response: ' , response);
+    }
+
+    function handleError(error) {
+        console.log(error);
     };
+
+    function setCurrentUser(user) {
+        vm.user = user;
+        // return vm.user = user;
+    };
+
+    vm.openPost = function(postId){
+        console.log(postId, 'PostId');
+        $state.go('home.post', { id: postId });
+    } 
 
 
     //event listeners for user authentication and logout
