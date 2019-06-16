@@ -62,7 +62,6 @@
     $scope.$on('devise:logout', function(e, user){
         return vm.user = {};
     });
-
   };
 
   angular

@@ -7,32 +7,8 @@
         <h2 id="subtitle">{{vm.post.subtitle}} <button class="btn btn-default btn-outline-primary" onclick="run('subtitle')"><i class="fas fa-volume-up"></i></button></h2>
 
       </div>
-
-      <div ng-if="vm.post.post_type == 'image'">
+      <div>
         <img ng-src="{{vm.post.image}}" class="card-img" alt="...">
-      </div>
-
-      <div ng-if="vm.post.post_type == 'video'"> 
-        <div class='container'>
-          <div class="row">
-            <div class="col-md-8">
-                <div class="embed-responsive embed-responsive-16by9">
-                  <video controls>
-                    <source ng-src="{{vm.video_url}}" type="video/mp4" >
-                  </video>
-                </div>
-            </div>
-            <div class="col-md-4">
-               <h3>
-                 Transcript
-               </h3>
-               <section ng-bind-html="vm.post.transcript">
-
-               </section>
-               </p>
-            </div>
-          </div>
-        </div>
       </div>
       <!-- <div class="embed-responsive embed-responsive-16by9"> -->
         <!-- media -->
