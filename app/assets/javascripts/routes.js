@@ -12,7 +12,7 @@
           controller: 'HomeController as vm'
         })
         .state('home.post', {
-          url: '/post',
+          url: 'post/:id',
           templateUrl: 'post/post.html',
           controller: 'PostController as vm'
         })

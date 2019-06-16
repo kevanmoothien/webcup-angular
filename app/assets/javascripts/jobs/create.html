@@ -5,6 +5,14 @@
         <h2>Let's Make a Job</h2>
       </div>
       <div class="panel-body">
+          <div>
+              <button id=play>play</button> &nbsp;
+              <button id=pause>pause</button> &nbsp;
+              <button id=stop>stop</button>
+          </div>
+          <div id="post_body" onclick="speak_loud()">
+              The non-fulfillment of prophecies served to popularize the methods of apocalyptic in comparison with the non-fulfillment of the advent of the Messianic kingdom. Thus, though Jeremiah had promised that after seventy years Israelites should be restored to their own land, and then enjoy the blessings of the Messianic kingdom under the Messianic king, this period passed by and things remained as of old. Some believe that the Messianic kingdom was not necessarily predicted to occur at the end of the seventy years of the Babylonian exile, but at some unspecified time in the future. The only thing for certain that was predicted was the return of the Jews to their land, which occurred when Cyrus the Persian conquered Babylon in circa 539 BC. Thus, the fulfillment of the Messianic kingdom remained in the future for the Jews.
+          </div>
         <form name="newJob" ng-submit="vm.createJob()">
             <label form="job_title">Job Title: </label>
             <input type="text" required name="job_title" ng-model="vm.job.job_title" class="form-control"/>
