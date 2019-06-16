@@ -29,6 +29,10 @@ Rails.application.routes.draw do
   post 'checklist/:checklist_id/items' => 'items#create'
   delete 'checklist/:checklist_id/items' => 'items#destroy'
 
+  # Service Worker Routes
+  get '/service-worker.js' => 'checklists#service_worker'
+  get '/manifest.json' => "checklists#manifest"
+
   get 'backdoor' => 'backdoor#index'
 
   resources :posts
