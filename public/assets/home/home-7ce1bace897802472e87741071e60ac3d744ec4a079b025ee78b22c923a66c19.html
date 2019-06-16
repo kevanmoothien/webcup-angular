@@ -107,8 +107,8 @@
                       <img style="height: 17rem; object-fit: contain;" ng-if="post.post_type == 'image'" ng-src="{{post.image}}" class="card-img" alt="{{post.alt_text}}">
 
                     <div class="col-10">
-                      <div class="card-body">
-                        <h5 class="card-title">{{post.title}}</h5>
+                      <div class="card-body"  ng-click="vm.openPost(post.id)">
+                          <h5 class="card-title" ><a tabIndex="{{post.id + 3}}" ui-sref="home.post({id: post.id})">{{post.title}}</a></h5>
                         <p class="card-text">{{post.subtitle}}</p>
                         <p class="card-text"><small class="text-muted">Added date: {{post.created_date}}</small></p>
                       </div>
