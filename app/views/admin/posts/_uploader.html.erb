@@ -1,0 +1,67 @@
+<li class="string input optional stringish" id="post_image_input">
+  <label for="post_image" class="label">Media</label>
+  <input id="post_image" type="file" name="post[image]" accept="audio/*|video/*|image/*" onchange="uploadFile()">
+  <input type="hidden" id="post_url" name="post[url]" value="" />
+
+  <div style="margin: 10px"></div>
+  <div class="w3-light-grey">
+    <div id="progress_bar" class="w3-green" style="height:24px;width:0%"></div>
+  </div><br>
+</li>
+<style>
+  .w3-light-grey,.w3-hover-light-grey:hover,.w3-light-gray,.w3-hover-light-gray:hover{color:#000!important;background-color:#f1f1f1!important}
+  .w3-green,.w3-hover-green:hover{color:#fff!important;background-color:#4CAF50!important}
+</style>
+
+<script>
+
+var filetype = document.getElementById('post_post_type').value;
+function find(el) {
+    return document.getElementById(el);
+}
+
+document.getElementById('post_post_type').addEventListener('change', function(){
+    console.log('changes')
+    filetype  = document.getElementById('post_post_type').value
+})
+
+function uploadFile() {
+    var file = find("post_image").files[0];
+    // alert(file.name+" | "+file.size+" | "+file.type);
+    var formdata = new FormData();
+    formdata.append("file", file);
+    var ajax = new XMLHttpRequest();
+    ajax.upload.addEventListener("progress", progressHandler, false);
+    ajax.addEventListener("load", completeHandler, false);
+    ajax.addEventListener("error", errorHandler, false);
+    ajax.addEventListener("abort", abortHandler, false);
+    var url = "https://api.cloudinary.com/v1_1/kevan1881/" + filetype + "/upload?upload_preset=yxsqbxwk&resource_type=auto";
+    ajax.open("POST", url);
+    //use file_upload_parser.php from above url
+    ajax.send(formdata);
+}
+
+function progressHandler(event) {
+    //_("loaded_n_total").innerHTML = "Uploaded " + event.loaded + " bytes of " + event.total;
+    var percent = (event.loaded / event.total) * 100;
+    find("progress_bar").style.width = Math.round(percent) + '%';
+//    find("status").innerHTML = Math.round(percent) + "% uploaded... please wait";
+}
+
+function completeHandler(event) {
+    console.log(event.target.responseText);
+    var payload = JSON.parse(event.target.responseText)
+    var url = payload['url']
+    document.getElementById('post_url').value = url;
+//    _("status").innerHTML = event.target.responseText;
+//    _("progressBar").value = 0; //wil clear progress bar after successful upload
+}
+
+function errorHandler(event) {
+//    _("status").innerHTML = "Upload Failed";
+}
+
+function abortHandler(event) {
+//    _("status").innerHTML = "Upload Aborted";
+}
+</script>
