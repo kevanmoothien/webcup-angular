@@ -22,7 +22,7 @@
         };
 
         function goToJobs() {
-            $state.go('home.jobs');
+            window.location.href = '/admin/posts'
         };
 
     };

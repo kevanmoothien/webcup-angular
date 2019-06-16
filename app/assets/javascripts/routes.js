@@ -22,7 +22,7 @@
           controller: 'AuthController as vm',
           onEnter: function($state, Auth) {
             Auth.currentUser().then(function(){
-                $state.go('home.jobs');
+                window.location.href = '/admin';
             });
           }
         })
