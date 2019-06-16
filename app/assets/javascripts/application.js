@@ -18,6 +18,5 @@
 //= require angular-rails-templates
 //= require angular-messages.min
 //= require bootstrap-sprockets
-//= require cloudinary
+//= require 'speech.js'
 //= require_tree .
-
