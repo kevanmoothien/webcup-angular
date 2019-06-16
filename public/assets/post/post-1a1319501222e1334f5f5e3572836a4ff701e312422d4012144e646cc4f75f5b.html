@@ -1,0 +1,28 @@
+<div class="row form" >
+  <div class="container mt-3">
+    <div class="card">
+      <div class="col-12">
+        <!-- title post -->
+        <h1>{{ vm.post.title }}</h1>
+        <h2>{{vm.post.subtitle}}</h2>
+      </div>
+      <div>
+        <img ng-src="{{vm.post.image}}" class="card-img" alt="...">
+      </div>
+      <!-- <div class="embed-responsive embed-responsive-16by9"> -->
+        <!-- media -->
+        <!-- image -->
+        <!-- video -->
+        <!-- <video autoplay>
+            <source src="https://st3.depositphotos.com/17302234/19431/v/600/depositphotos_194319842-stock-video-close-healthy-breakfast-bowl-table.mp4" type="video/mp4">
+        </video> -->
+      <!-- </div> -->
+      <div class="card-body">
+          <p class="card-text">
+            <div ng-bind-html="vm.post_body"></div>            
+          </p>
+      </div>
+    </div>
+  </div>
+</div>
+  
