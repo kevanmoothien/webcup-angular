@@ -8,9 +8,8 @@
 
       </div>
 
-      <div ng-if="vm.post.post_type == 'image'">
-        <img ng-src="{{vm.post.image}}" class="card-img" alt="...">
-      </div>
+
+     <img  ng-if="vm.post.post_type == 'image'" ng-src="{{vm.post.image}}" class="card-img" alt="{{ vm.post.alt_text }}"/>
 
       <div ng-if="vm.post.post_type == 'video'"> 
         <div class='container'>
@@ -45,7 +44,7 @@
       <div class="card-body">
           <p class="card-text">
               <button class="btn btn-default btn-outline-primary" onclick="run('post_body')"><i class="fas fa-volume-up fa-2x"></i></button>
-            <article ng-bind-html="vm.post_body" id="post_body"></article>
+            <article ng-bind-html="vm.post_body" id="post_body"  title="{{vm.post.title}}"></article>
           </p>
       </div>
     </div>
