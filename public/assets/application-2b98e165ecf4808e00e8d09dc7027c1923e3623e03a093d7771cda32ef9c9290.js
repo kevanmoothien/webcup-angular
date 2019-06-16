@@ -16929,6 +16929,82 @@ f+" "),e=x(e);a.after(e);a.remove()}return{restrict:"AE",require:"^^ngMessages",
 
 
 
+
+window.speechSynthesis.onvoiceschanged = function() {
+    window.speechSynthesis.getVoices();
+    console.log('loaded');
+};
+function load_fn(){
+    var btn = document.getElementById('title');
+    speechSynthesis.cancel()
+    var u = new SpeechSynthesisUtterance();
+    u.text = document.getElementById('card-text').textContent;
+
+    var  t;
+    u.onstart = function (event) {
+        t = event.timeStamp;
+        console.log(t);
+    };
+
+    u.onend = function (event) {
+        t = event.timeStamp-t;
+        console.log(event.timeStamp);
+        console.log((t/1000) +' seconds');
+    };
+
+    btn.onclick = function () {speechSynthesis.speak(u);};
+}
+
+var timeoutResumeInfinity;
+function run(id){
+    console.log('running', id)
+
+    speechSynthesis.cancel()
+    var u = new SpeechSynthesisUtterance();
+    u.text = document.getElementById(id).textContent;
+    console.log(u.text)
+
+    u.onstart = function(event) {
+        resumeInfinity();
+    };
+
+    var  t;
+    u.onstart = function (event) {
+        t = event.timeStamp;
+        console.log(t);
+    };
+
+    u.onerror = function(event){
+        console.log('#####', event)
+    }
+
+    u.onend = function (event) {
+        clearTimeout(timeoutResumeInfinity);
+        resumeInfinity()
+        t = event.timeStamp-t;
+        console.log(event.timeStamp);
+        console.log((t/1000) +' seconds');
+    };
+
+    speechSynthesis.speak(u);
+}
+
+function eventFire(el, etype){
+    if (el.fireEvent) {
+        el.fireEvent('on' + etype);
+    } else {
+        var evObj = document.createEvent('Events');
+        evObj.initEvent(etype, true, false);
+        el.dispatchEvent(evObj);
+    }
+}
+
+function resumeInfinity() {
+    window.speechSynthesis.pause();
+    window.speechSynthesis.resume();
+    timeoutResumeInfinity = setTimeout(resumeInfinity, 1000);
+}
+;
 /*!
  * jQuery JavaScript Library v3.3.1
  * https://jquery.com/
@@ -51327,8 +51403,9 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 
   'use strict';
 
-  function HomeController($scope, Auth,$interval) {
+  function HomeController($scope, Auth,$interval, $http, $state) {
     var vm = this;
+   
 
     // callable methods on the vm
     vm.signedIn = Auth.isAuthenticated;
@@ -51340,6 +51417,9 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
     //defined methods on the vm
     function activate() {
         getCurrentUser();
+        $http.get('/posts.json')
+        .then(handleSuccess)
+        .catch(handleError)
     };
 
     function getCurrentUser() {
@@ -51347,9 +51427,24 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
                    .then(setCurrentUser);
     };
 
-    function setCurrentUser(user) {
-        return vm.user = user;
+    function handleSuccess(response){
+        vm.data = response.data;
+        console.log('response: ' , response);
+    }
+
+    function handleError(error) {
+        console.log(error);
     };
+
+    function setCurrentUser(user) {
+        vm.user = user;
+        // return vm.user = user;
+    };
+
+    vm.openPost = function(postId){
+        console.log(postId, 'PostId');
+        $state.go('home.post', { id: postId });
+    } 
 
 
     //event listeners for user authentication and logout
@@ -51391,7 +51486,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/home/home.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("home/home.html", '<div class="wrapper-kevan">\n  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3" ng-controller="HomeController as vm">\n      <a class="navbar-brand" href="#">\n         <img class="img-responsive" style="width: 20px" src="http://res.cloudinary.com/kevan1881/image/upload/c_fit,h_500/v1560623640/logo_transparent_dyb6fg.png" alt="logo">\n      </a>\n        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">\n          <span class="navbar-toggler-icon"></span>\n        </button>\n\n        <div class="collapse navbar-collapse" id="navbarSupportedContent">\n          <ul class="navbar-nav mr-auto">\n            <li class="nav-item active">\n              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>\n            </li>\n              <!--<li class="nav-item">-->\n                <!--<a class="nav-link" href="#" ui-sref="home.post">Post</a>-->\n              <!--</li>-->\n\n              <!--<li class="nav-item dropdown">-->\n                <!--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->\n                  <!--Dropdown-->\n                <!--</a>-->\n                <!--<div class="dropdown-menu" aria-labelledby="navbarDropdown">-->\n                  <!--<a class="dropdown-item" href="#">Action</a>-->\n                  <!--<a class="dropdown-item" href="#">Another action</a>-->\n                  <!--<div class="dropdown-divider"></div>-->\n                  <!--<a class="dropdown-item" href="#">Something else here</a>-->\n                <!--</div>-->\n              <!--</li>-->\n            </ul>\n            <ul class="navbar-nav ml-auto">\n                <li class="nav-item  justify-content-end">\n                    <a class="nav-link" href="#" ui-sref="home.contactus">Contact us</a>\n                </li>\n            </ul>\n        </div>\n    </nav>\n  <div id="main-container" class="container-fluid">\n    <ui-view id="main-ui-view">\n      <!-- Start slider -->\n      <div class="container">\n          <div class="row text-center timer">\n              <div class="col">\n                  <div class="{{\'d-inline-block progress-circle \'+dayP}}">\n                      <span>{{day}}</span>\n                      <div class="left-half-clipper">\n                          <div class="first50-bar"></div>\n                          <div class="value-bar"></div>\n                      </div>\n                  </div>\n                  <div>day</div>\n              </div>\n              <div class="col">\n                  <div class="{{\'d-inline-block progress-circle \'+hourP}}">\n                      <span>{{hour}}</span>\n                      <div class="left-half-clipper">\n                          <div class="first50-bar"></div>\n                          <div class="value-bar"></div>\n                      </div>\n                  </div>\n                  <div>hour</div>\n              </div>\n              <div class="col">\n                  <div class="{{\'d-inline-block progress-circle \'+minuteP}}">\n                      <span>{{minute}}</span>\n                      <div class="left-half-clipper">\n                          <div class="first50-bar"></div>\n                          <div class="value-bar"></div>\n                      </div>\n                  </div>\n                  <div>min</div>\n              </div>\n              <div class="col">\n                  <div class="{{\'d-inline-block progress-circle \'+secondP}}">\n                      <span>{{second}}</span>\n                      <div class="left-half-clipper">\n                          <div class="first50-bar"></div>\n                          <div class="value-bar"></div>\n                      </div>\n                  </div>\n                  <div>secs</div>\n              </div>\n          </div>\n      </div>\n      <!-- End slider -->\n\n      <div class="row">\n          <div class="col-12 col-md-6 col-lg-4">\n              <div class="card mb-3">\n                  <div class="row no-gutters">\n                    <div class="">\n                      <img src="http://via.placeholder.com/640x360" class="card-img" alt="...">\n                    </div>\n                    <div class="col-10">\n                      <div class="card-body">\n                        <h5 class="card-title">Card title</h5>\n                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>\n                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>\n                      </div>\n                    </div>\n                  </div>\n              </div>\n          </div>\n          <div class="col-12 col-md-6 col-lg-4">\n              <div class="card mb-3">\n                  <div class="row no-gutters">\n                    <div class="">\n                      <img src="http://via.placeholder.com/640x360" class="card-img" alt="...">\n                    </div>\n                    <div class="col-10">\n                      <div class="card-body">\n                        <h5 class="card-title">Card title</h5>\n                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>\n                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>\n                      </div>\n                    </div>\n                  </div>\n              </div>\n          </div>\n          <div class="col-12 col-md-6 col-lg-4">\n              <div class="card mb-3">\n                  <div class="row no-gutters">\n                    <div class="">\n                      <img src="http://via.placeholder.com/640x360" class="card-img" alt="...">\n                    </div>\n                    <div class="col-10">\n                      <div class="card-body">\n                        <h5 class="card-title">Card title</h5>\n                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>\n                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n          </div>\n          <div class="col-12 col-md-6 col-lg-4">\n              <div class="card mb-3">\n                  <div class="row no-gutters">\n                    <div class="">\n                      <img src="http://via.placeholder.com/640x360" class="card-img" alt="...">\n                    </div>\n                    <div class="col-10">\n                      <div class="card-body">\n                        <h5 class="card-title">Card title</h5>\n                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>\n                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n          </div>\n          <div class="col-12 col-md-6 col-lg-4">\n              <div class="card mb-3">\n                  <div class="row no-gutters">\n                    <div class="">\n                      <img src="http://via.placeholder.com/640x360" class="card-img" alt="...">\n                    </div>\n                    <div class="col-10">\n                      <div class="card-body">\n                        <h5 class="card-title">Card title</h5>\n                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>\n                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n          </div>\n          <div class="col-12 col-md-6 col-lg-4">\n              <div class="card mb-3">\n                  <div class="row no-gutters">\n                    <div class="">\n                      <img src="http://via.placeholder.com/640x360" class="card-img" alt="...">\n                    </div>\n                    <div class="col-10">\n                      <div class="card-body">\n                        <h5 class="card-title">Card title</h5>\n                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>\n                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n          </div>\n      </div>\n    </ui-view>\n  </div>\n</div>\n\n<hr />\n\n<footer class="container">\n  <div class="container-fluid">\n        <div class="row">\n          <div class="col-md-6">\n              <span class="copyright">Copyright &copy; <a href="http://webcup-rubix.herokuapp.com/about" target="_blank">Rubix Team</a> 2019</span>\n          </div>\n          <div class="col-md-6">\n          <span>Powered by Rubix Team</span>\n          </div>\n        </div>\n    </div>\n</footer>')
+  $templateCache.put("home/home.html", '<div class="wrapper-kevan">\n  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3" ng-controller="HomeController as vm">\n      <a class="navbar-brand" href="#">\n         <img class="img-responsive" style="width: 20px" src="http://res.cloudinary.com/kevan1881/image/upload/c_fit,h_500/v1560623640/logo_transparent_dyb6fg.png" alt="logo">\n      </a>\n        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">\n          <span class="navbar-toggler-icon"></span>\n        </button>\n        \n        <div class="collapse navbar-collapse" id="navbarSupportedContent">\n          <ul class="navbar-nav mr-auto">\n            <li class="nav-item active">\n              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>\n            </li>\n              <!--<li class="nav-item">-->\n                <!--<a class="nav-link" href="#" ui-sref="home.post">Post</a>-->\n              <!--</li>-->\n\n              <!--<li class="nav-item dropdown">-->\n                <!--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->\n                  <!--Dropdown-->\n                <!--</a>-->\n                <!--<div class="dropdown-menu" aria-labelledby="navbarDropdown">-->\n                  <!--<a class="dropdown-item" href="#">Action</a>-->\n                  <!--<a class="dropdown-item" href="#">Another action</a>-->\n                  <!--<div class="dropdown-divider"></div>-->\n                  <!--<a class="dropdown-item" href="#">Something else here</a>-->\n                <!--</div>-->\n              <!--</li>-->\n            </ul>\n            <ul class="navbar-nav ml-auto">\n                <li class="nav-item  justify-content-end">\n                    <a class="nav-link" href="#" ui-sref="home.contactus">Contact us</a>\n                </li>\n            </ul>\n        </div>\n    </nav>\n  <div id="main-container" class="container-fluid">\n    <ui-view id="main-ui-view">\n      <!-- Start slider -->\n      <div class="container">\n          <div class="row text-center timer">\n              <div class="col">\n                  <div class="{{\'d-inline-block progress-circle \'+dayP}}">\n                      <span>{{day}}</span>\n                      <div class="left-half-clipper">\n                          <div class="first50-bar"></div>\n                          <div class="value-bar"></div>\n                      </div>\n                  </div>\n                  <div>day</div>\n              </div>\n              <div class="col">\n                  <div class="{{\'d-inline-block progress-circle \'+hourP}}">\n                      <span>{{hour}}</span>\n                      <div class="left-half-clipper">\n                          <div class="first50-bar"></div>\n                          <div class="value-bar"></div>\n                      </div>\n                  </div>\n                  <div>hour</div>\n              </div>\n              <div class="col">\n                  <div class="{{\'d-inline-block progress-circle \'+minuteP}}">\n                      <span>{{minute}}</span>\n                      <div class="left-half-clipper">\n                          <div class="first50-bar"></div>\n                          <div class="value-bar"></div>\n                      </div>\n                  </div>\n                  <div>min</div>\n              </div>\n              <div class="col">\n                  <div class="{{\'d-inline-block progress-circle \'+secondP}}">\n                      <span>{{second}}</span>\n                      <div class="left-half-clipper">\n                          <div class="first50-bar"></div>\n                          <div class="value-bar"></div>\n                      </div>\n                  </div>\n                  <div>secs</div>\n              </div>\n          </div>\n      </div>\n      <!-- End slider -->\n\n      <div class="row">\n\n          <div class="col-12 col-md-6 col-lg-4" ng-repeat="post in vm.data" ng-click="vm.openPost(post.id)">\n              \n              <div class="card mb-3">\n                  <div class="row no-gutters">\n                    <div class="">\n                      <img src="http://via.placeholder.com/640x360" class="card-img" alt="...">\n                    </div>\n                    <div class="col-10">\n                      <div class="card-body">\n                        <h5 class="card-title">{{post.title}}</h5>\n                        <p class="card-text">{{post.subtitle}}</p>\n                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>\n                      </div>\n                    </div>\n                  </div>\n              </div>\n          </div>\n\n      </div>\n    </ui-view>\n  </div>\n</div>\n\n<hr />\n\n<footer class="container">\n  <div class="container-fluid">\n        <div class="row">\n          <div class="col-md-6">\n              <span class="copyright">Copyright &copy; <a href="http://webcup-rubix.herokuapp.com/about" target="_blank">Rubix Team</a> 2019</span>\n          </div>\n          <div class="col-md-6">\n          <span>Powered by Rubix Team</span>\n          </div>\n        </div>\n    </div>\n</footer>')
 }]);
 
 (function() {
@@ -51479,7 +51574,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/jobs/create.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("jobs/create.html", '<div class="row form">\n  <div class="col-md-10 col-md-offset-1">\n    <div class="panel panel-default">\n      <div class="panel-header">\n        <h2>Let\'s Make a Job</h2>\n      </div>\n      <div class="panel-body">\n        <form name="newJob" ng-submit="vm.createJob()">\n            <label form="job_title">Job Title: </label>\n            <input type="text" required name="job_title" ng-model="vm.job.job_title" class="form-control"/>\n            <div ng-messages="newJob.job_title.$error" ng-show="newJob.job_title.$touched || newJob.$submitted">\n              <div ng-message="required">Job Title is required.</div>\n            </div>\n            <br />\n            <label form="company">Company: </label>\n            <input type="text" required name="company" ng-model="vm.job.company" class="form-control"/>\n            <div ng-messages="newJob.company.$error" ng-show="newJob.company.$touched || newJob.$submitted">\n              <div ng-message="required">Company is required.</div>\n            </div>\n            <br />\n            <label form="job_description">Job Description: </label>\n            <textarea ng-model="vm.job.job_description" class="form-control"></textarea>\n            <br />\n            <label form="company_url">Company URL: </label>\n            <textarea ng-model="vm.job.company_url" class="form-control"></textarea>\n            <br />\n            <label form="date">Date: </label>\n            <input type="text" ng-model="vm.job.date" class="form-control" />\n            <br />\n            <label form="status">Status: </label>\n            <select name="status" required name="status" ng-model="vm.job.status" class="form-control">\n                  <option ng-repeat="status in vm.statuses" ng-value="status.id">{{status.value}}</option>\n            </select>\n            <div ng-messages="newJob.status.$error" ng-show="newJob.status.$touched || newJob.$submitted">\n              <div ng-message="required">Status is required.</div>\n            </div>\n            <br />\n            <label form="point_of_contact">Point of Contact: </label>\n            <input type="text" ng-model="vm.job.point_of_contact" class="form-control"/>\n            <br />\n            <label form="job_reference">Job Reference: </label>\n            <input type="text" ng-model="vm.job.job_reference" class="form-control"/>\n            <br />\n            <label form="tech_stack">Tech Stack: </label>\n            <input type="text" ng-model="vm.job.tech_stack" class="form-control"/>\n            <br />\n            <input class="btn btn-md btn-primary" type="submit" value="Add Job">\n        </form>\n      </div>\n    </div>\n  </div>\n</div>')
+  $templateCache.put("jobs/create.html", '<div class="row form">\n  <div class="col-md-10 col-md-offset-1">\n    <div class="panel panel-default">\n      <div class="panel-header">\n        <h2>Let\'s Make a Job</h2>\n      </div>\n      <div class="panel-body">\n          <div>\n              <button id=play>play</button> &nbsp;\n              <button id=pause>pause</button> &nbsp;\n              <button id=stop>stop</button>\n          </div>\n          <div id="post_body" onclick="speak_loud()">\n              The non-fulfillment of prophecies served to popularize the methods of apocalyptic in comparison with the non-fulfillment of the advent of the Messianic kingdom. Thus, though Jeremiah had promised that after seventy years Israelites should be restored to their own land, and then enjoy the blessings of the Messianic kingdom under the Messianic king, this period passed by and things remained as of old. Some believe that the Messianic kingdom was not necessarily predicted to occur at the end of the seventy years of the Babylonian exile, but at some unspecified time in the future. The only thing for certain that was predicted was the return of the Jews to their land, which occurred when Cyrus the Persian conquered Babylon in circa 539 BC. Thus, the fulfillment of the Messianic kingdom remained in the future for the Jews.\n          </div>\n        <form name="newJob" ng-submit="vm.createJob()">\n            <label form="job_title">Job Title: </label>\n            <input type="text" required name="job_title" ng-model="vm.job.job_title" class="form-control"/>\n            <div ng-messages="newJob.job_title.$error" ng-show="newJob.job_title.$touched || newJob.$submitted">\n              <div ng-message="required">Job Title is required.</div>\n            </div>\n            <br />\n            <label form="company">Company: </label>\n            <input type="text" required name="company" ng-model="vm.job.company" class="form-control"/>\n            <div ng-messages="newJob.company.$error" ng-show="newJob.company.$touched || newJob.$submitted">\n              <div ng-message="required">Company is required.</div>\n            </div>\n            <br />\n            <label form="job_description">Job Description: </label>\n            <textarea ng-model="vm.job.job_description" class="form-control"></textarea>\n            <br />\n            <label form="company_url">Company URL: </label>\n            <textarea ng-model="vm.job.company_url" class="form-control"></textarea>\n            <br />\n            <label form="date">Date: </label>\n            <input type="text" ng-model="vm.job.date" class="form-control" />\n            <br />\n            <label form="status">Status: </label>\n            <select name="status" required name="status" ng-model="vm.job.status" class="form-control">\n                  <option ng-repeat="status in vm.statuses" ng-value="status.id">{{status.value}}</option>\n            </select>\n            <div ng-messages="newJob.status.$error" ng-show="newJob.status.$touched || newJob.$submitted">\n              <div ng-message="required">Status is required.</div>\n            </div>\n            <br />\n            <label form="point_of_contact">Point of Contact: </label>\n            <input type="text" ng-model="vm.job.point_of_contact" class="form-control"/>\n            <br />\n            <label form="job_reference">Job Reference: </label>\n            <input type="text" ng-model="vm.job.job_reference" class="form-control"/>\n            <br />\n            <label form="tech_stack">Tech Stack: </label>\n            <input type="text" ng-model="vm.job.tech_stack" class="form-control"/>\n            <br />\n            <input class="btn btn-md btn-primary" type="submit" value="Add Job">\n        </form>\n      </div>\n    </div>\n  </div>\n</div>')
 }]);
 
 // Angular Rails Template
@@ -51867,7 +51962,6 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
     $scope.$on('devise:logout', function(e, user){
         return vm.user = {};
     });
-
   };
 
   angular
@@ -51878,7 +51972,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // source: app/assets/javascripts/post/post.html
 
 angular.module("templates").run(["$templateCache", function($templateCache) {
-  $templateCache.put("post/post.html", '<div class="row form" >\n  <div class="container mt-3">\n    <div class="card">\n      <div class="col-12">\n        <!-- title post -->\n        <h1>{{ vm.post.title }}</h1>\n        <h2>{{vm.post.subtitle}}</h2>\n      </div>\n      <div>\n        <img src="http://via.placeholder.com/640x360" class="card-img" alt="...">\n      </div>\n      <!-- <div class="embed-responsive embed-responsive-16by9"> -->\n        <!-- media -->\n        <!-- image -->\n        <!-- video -->\n        <!-- <video autoplay>\n            <source src="https://st3.depositphotos.com/17302234/19431/v/600/depositphotos_194319842-stock-video-close-healthy-breakfast-bowl-table.mp4" type="video/mp4">\n        </video> -->\n      <!-- </div> -->\n      <div class="card-body">\n          <p class="card-text">\n            <div ng-bind-html="vm.post_body"></div>            \n          </p>\n      </div>\n    </div>\n  </div>\n</div>\n  ')
+  $templateCache.put("post/post.html", '<div class="row form">\n  <div class="container mt-3">\n    <div class="card">\n      <div class="col-12">\n        <!-- title post -->\n        <h1 id="title">{{ vm.post.title }} <button class="btn btn-default btn-outline-primary" onclick="run(\'title\')"><i class="fas fa-volume-up"></i></button></h1>\n        <h2 id="subtitle">{{vm.post.subtitle}} <button class="btn btn-default btn-outline-primary" onclick="run(\'subtitle\')"><i class="fas fa-volume-up"></i></button></h2>\n\n      </div>\n      <div>\n        <img ng-src="{{vm.post.image}}" class="card-img" alt="...">\n      </div>\n      <!-- <div class="embed-responsive embed-responsive-16by9"> -->\n        <!-- media -->\n        <!-- image -->\n        <!-- video -->\n        <!-- <video autoplay>\n            <source src="https://st3.depositphotos.com/17302234/19431/v/600/depositphotos_194319842-stock-video-close-healthy-breakfast-bowl-table.mp4" type="video/mp4">\n        </video> -->\n      <!-- </div> -->\n      <div class="card-body">\n          <p class="card-text">\n              <button class="btn btn-default btn-outline-primary" onclick="run(\'post_body\')"><i class="fas fa-volume-up fa-2x"></i></button>\n            <article ng-bind-html="vm.post_body" id="post_body"></article>\n          </p>\n      </div>\n    </div>\n  </div>\n</div>\n  ')
 }]);
 
 (function(){
@@ -51962,6 +52056,7 @@ angular.module("templates").run(["$templateCache", function($templateCache) {
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+
 
 
 
