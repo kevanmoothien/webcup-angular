@@ -23,7 +23,7 @@ gem 'bootstrap', '~> 4.3.1'
 # gem 'font-awesome-sass', '~> 4.7.0'
 gem 'font-awesome5-rails'
 # Use Puma as the app server
-gem 'puma', '~> 3.0'
+gem 'puma', '~> 4.3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
